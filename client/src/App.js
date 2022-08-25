@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {} from 'react'
 import Chat from './page/Chat/Chat'
 import Home from './page/Home/Home'
 import Login from './page/Login/Login'
@@ -9,10 +9,10 @@ const App = () => {
   return (
     <>
       <Routes>
-        <Route path='/' element={<Home/>} />
-        <Route path='/login' element={<Login/>} />
-        <Route path='/signup' element={<SignUp/>} />
-        <Route path='/chat' element={<Chat/>} />
+        <Route path='/' element={<Home />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/signup' element={<SignUp />} />
+        <Route path='/chat' element={<Chat />} />
         <Route path='/*' element={<>404 Page</>} />
       </Routes>
     </>

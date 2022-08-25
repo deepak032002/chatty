@@ -1,20 +1,91 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import ChatField from '../../components/ChatField/ChatField'
 import ContactInfo from '../../components/ContactInfo/ContactInfo'
 import Contacts from '../../components/Contacts/Contacts'
+import Header from '../../components/Header/Header'
+import { Navigate } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { getMessage, saveMessage, setrooms } from '../../redux/actions/action'
+import { io } from 'socket.io-client'
+import './chat.scss'
+
+const socket = io('/')
+
 
 const Chat = () => {
+    const state = useSelector(state => state)
+    const [currentUser, setCurrentUser] = useState(null)
+    const [sendMsg, setSendMsg] = useState('')
+    const [allMsg, setAllMsg] = useState([
+        {
+            date: '23/04/2022',
+            messages: [
+                { "profilepic": "http://localhost:5000/uploads/1661167505201-ali-morshedlou-WMD64tMfc4k-unsplash.jpg", "msg": "hello", "self": true, "from": "rohit321@gmail.com", "date": "25/08/2022", "time": "13:35:18" },
+                { "profilepic": "http://localhost:5000/uploads/1661167505201-ali-morshedlou-WMD64tMfc4k-unsplash.jpg", "msg": "hello", "self": true, "from": "rohit321@gmail.com", "date": "25/08/2022", "time": "13:35:18" },
+                { "profilepic": "http://localhost:5000/uploads/1661167505201-ali-morshedlou-WMD64tMfc4k-unsplash.jpg", "msg": "hello", "self": true, "from": "rohit321@gmail.com", "date": "25/08/2022", "time": "13:35:18" },
+                { "profilepic": "http://localhost:5000/uploads/1661167505201-ali-morshedlou-WMD64tMfc4k-unsplash.jpg", "msg": "hello", "self": true, "from": "rohit321@gmail.com", "date": "25/08/2022", "time": "13:35:18" },
+                { "profilepic": "http://localhost:5000/uploads/1661167505201-ali-morshedlou-WMD64tMfc4k-unsplash.jpg", "msg": "hello", "self": true, "from": "rohit321@gmail.com", "date": "25/08/2022", "time": "13:35:18" },
+
+            ]
+        }
+    ])
+    const [roomId, setRoomId] = useState()
+    const [currentSel, setCurrentSel] = useState(null)
+
+    const dispatch = useDispatch()
+    const email = useSelector(state => state.user.user_details.email)
+    const profilepic = useSelector(state => state.user.user_details.profilepic)
+
+    useEffect(() => {
+        dispatch(setrooms(email))
+    }, [dispatch, email])
+
+    useEffect(() => {
+        setAllMsg(state.user.messages)
+    }, [state])
+
+    useEffect(() => {
+        socket.off('msg').on('msg', (msgObj) => {
+            setAllMsg(prev => prev.concat(msgObj))
+        })
+    }, [])
+
+    const handleChatStart = useCallback((index, roomId) => {
+        setCurrentUser(state.user.rooms[index].user[0])
+        setCurrentSel(index)
+        setAllMsg([])
+        setRoomId(roomId)
+
+        dispatch(getMessage(roomId))
+        socket.emit('join', { roomId: roomId })
+    }, [dispatch, state])
+
+    const handleSendMsg = useCallback(() => {
+        if (sendMsg) {
+            const msgObj = { profilepic: profilepic, msg: sendMsg, self: true, from: email, date: new Date().toLocaleDateString(), time: new Date().toLocaleTimeString() }
+            setAllMsg(prev => prev.concat(msgObj))
+            dispatch(saveMessage(roomId, msgObj))
+            socket.emit('msg', msgObj)
+            setSendMsg('')
+        }
+    }, [dispatch, email, roomId, profilepic, sendMsg])
 
     return (
         <>
-            <div className="bg-gray-200 h-screen">
-                <h1 className='text-center bg-white text-2xl shadow-sm py-3 uppercase font-[Poppins]'>Chatty</h1>
-                <div className="grid grid-cols-12 px-2 font-[Poppins]" style={{ height: 'calc(100vh - 3.5rem)' }}>
-                    <Contacts />
-                    <ChatField />
-                    <ContactInfo />
-                </div>
-            </div>
+            {
+                !state.user.token ? <Navigate to="/login" /> :
+
+                    <div className="chat_wrp bg-gray-200">
+                        <div className='chat_top_wrapper'>
+                            <Header />
+                        </div>
+                        <div className={`chat_down_wrapper grid grid-cols-12 font-[Poppins]`}>
+                            <Contacts currentSel={currentSel} handleChatStart={handleChatStart} socket={socket} />
+                            <ChatField email={email} allMsg={allMsg} setSendMsg={setSendMsg} handleSendMsg={handleSendMsg} sendMsg={sendMsg} currentUser={currentUser} />
+                            <ContactInfo currentUser={currentUser} />
+                        </div>
+                    </div>
+            }
         </>
     )
 }

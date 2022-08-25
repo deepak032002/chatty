@@ -1,22 +1,24 @@
 import React, { useEffect } from 'react'
 import Header from '../../components/Header/Header'
 import sayhello from '../../img/sayhello.png'
-import axios from 'axios'
-import { setuser } from '../../redux/actions/action'
-import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { setuser, isTokenAvailable } from '../../redux/actions/action'
 
 const Home = () => {
+
+  const state = useSelector(state => state)
+
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (localStorage.getItem('token')) {
-        dispatch(setuser())
-    }
+    dispatch(setuser())
+    dispatch(isTokenAvailable())
   }, [dispatch])
 
   return (
-    <div className='home bg-blue-600 h-screen'>
+    <div className='home bg-blue-600 min-h-screen'>
       <Header variant="home" />
       <div className="section h-[90%]">
         <div className="left h-full flex justify-center items-center flex-col">
@@ -25,7 +27,7 @@ const Home = () => {
           <div className="btn-group flex gap-4">
 
             {
-              localStorage.getItem('token') ?
+              state.user.token ?
                 <Link to="/chat" className='border border-white py-1 px-4 text-white mt-4 rounded-md hover:shadow-xl'>Dashboard</Link>
                 :
                 <>

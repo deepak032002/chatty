@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+const mongoose = require('mongoose')
 
 const conn = async () => {
     try {
@@ -14,5 +14,5 @@ const conn = async () => {
     }
 }
 
-export default conn
+module.exports = conn
 

@@ -6,7 +6,7 @@ import axios from 'axios'
 const SignUp = () => {
   const navigate = useNavigate()
 
-  const [formdata, setFormdata] = useState({})
+  const [formdata, setFormdata] = useState({name: '', email: '', password: '', cpassword: '', profilepic: ''})
 
 
   const handleInput = (e) => {
@@ -56,35 +56,35 @@ const SignUp = () => {
                     <div className="flex absolute text-gray-400 inset-y-0 left-0 items-center pl-3 pointer-events-none">
                       <i className="fa-solid fa-user"></i>
                     </div>
-                    <input name='name' value={formdata.name} onChange={handleInput} type="text" id="input-group-1" className="focus:outline-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="John" />
+                    <input autoComplete='off' name='name' value={formdata.name} onChange={handleInput} type="text" id="input-group-1" className="focus:outline-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="John" />
                   </div>
 
                   <div className="relative mb-6">
                     <div className="flex absolute text-gray-400 inset-y-0 left-0 items-center pl-3 pointer-events-none">
                       <i className="fa-solid fa-envelope"></i>
                     </div>
-                    <input name='email' value={formdata.email} onChange={handleInput} type="text" id="input-group-2" className="focus:outline-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@domain.com" />
+                    <input autoComplete='off' name='email' value={formdata.email} onChange={handleInput} type="text" id="input-group-2" className="focus:outline-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@domain.com" />
                   </div>
 
                   <div className="relative mb-6">
                     <div className="flex absolute text-gray-400 inset-y-0 left-0 items-center pl-3 pointer-events-none">
                       <i className="fa-solid fa-lock"></i>
                     </div>
-                    <input name='password' value={formdata.password} onChange={handleInput} type="password" id="input-group-3" className="focus:outline-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="*******" />
+                    <input autoComplete='off' name='password' value={formdata.password} onChange={handleInput} type="password" id="input-group-3" className="focus:outline-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="*******" />
                   </div>
 
                   <div className="relative mb-6">
                     <div className="flex absolute text-gray-400 inset-y-0 left-0 items-center pl-3 pointer-events-none">
                       <i className="fa-solid fa-lock"></i>
                     </div>
-                    <input name='cpassword' value={formdata.cpassword} onChange={handleInput} type="password" id="input-group-4" className="focus:outline-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="*******" />
+                    <input autoComplete='off' name='cpassword' value={formdata.cpassword} onChange={handleInput} type="password" id="input-group-4" className="focus:outline-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="*******" />
                   </div>
 
                   <div className="relative mb-6">
                     <div className="flex absolute text-gray-400 inset-y-0 left-0 items-center pl-3 pointer-events-none">
                       <i className="fa-solid fa-image-portrait"></i>
                     </div>
-                    <input name='profilepic' onChange={handleInput} className='hidden' type="file" id="input-group-5" />
+                    <input autoComplete='off' name='profilepic' onChange={handleInput} className='hidden' type="file" id="input-group-5" />
                     <label className="focus:outline-none cursor-pointer bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" htmlFor="input-group-5">{formdata.profilepic ? formdata.profilepic.name : 'Select Image'}</label>
                   </div>
 

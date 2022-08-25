@@ -1,0 +1,78 @@
+.chat_wrp {
+  height: 100vh;
+  .chat_down_wrapper {
+    .contact {
+      height: calc(100vh - 3rem);
+      overflow-x: hidden;
+      overflow-y: scroll;
+
+      &::-webkit-scrollbar {
+        width: 0.4rem;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background-color: #787878;
+        border-radius: 10px;
+      }
+
+    }
+    .chat_field {
+      height: calc(100vh - 3rem);
+      overflow: hidden;
+
+      .top {
+        height: 4rem;
+        padding: 0 0.5rem;
+      }
+
+      .down {
+        height: calc(100% - 4rem);
+
+        .chat_area {
+          height: 100%;
+          overflow-x: hidden;
+          overflow-y: scroll;
+          padding: 0 0.5rem 3rem;
+
+          &::-webkit-scrollbar {
+            width: 0.4rem;
+          }
+
+          &::-webkit-scrollbar-thumb {
+            background-color: #787878;
+            border-radius: 10px;
+          }
+        }
+      }
+
+      .chat_write_area {
+        .input_wrp {
+          #emoji_trigger {
+            #emoji_wrp {
+              display: none;
+              &::after {
+                content: "";
+                position: absolute;
+                height: 1.5rem;
+                width: 1.5rem;
+                background-color: transparent;
+                left: 6px;
+                bottom: -20px;
+              }
+            }
+
+            &:hover {
+              i {
+                border-radius: 50%;
+                box-shadow: 0 0 0 5px #c8c8c8;
+              }
+              #emoji_wrp {
+                display: block;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

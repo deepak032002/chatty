@@ -2,11 +2,14 @@ import React, { useState } from 'react'
 import Header from '../../components/Header/Header'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { useDispatch } from 'react-redux'
+import { isTokenAvailable, setuser } from '../../redux/actions/action'
 
 const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const [formdata, setFormdata] = useState({})
+  const [formdata, setFormdata] = useState({email: '', password: ''})
 
   const handleInput = (e) => {
     let name = e.target.name
@@ -18,16 +21,18 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault()
 
-    const res = await axios.request('/api/v1/user/login', {
-      method: 'GET',
+    const res = await axios.get('/api/v1/user/login', {
       headers: {
         'Content-Type': 'application/json',
         ...formdata
       },
     })
-    console.log(res.data);
-    if(res.data.success){
+
+    if (res.data.success) {
       localStorage.setItem('token', res.data.token)
+      const token = res.data.token
+      dispatch(setuser(token))
+      dispatch(isTokenAvailable())
       navigate('/')
     }
   }
@@ -49,14 +54,14 @@ const Login = () => {
                     <div className="flex absolute text-gray-400 inset-y-0 left-0 items-center pl-3 pointer-events-none">
                       <i className="fa-solid fa-envelope"></i>
                     </div>
-                    <input name='email' value={formdata.email} onChange={handleInput} type="text" id="input-group-2" className="focus:outline-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@domain.com" />
+                    <input autoComplete='off' name='email' value={formdata.email} onChange={handleInput} type="text" id="input-group-2" className="focus:outline-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@domain.com" />
                   </div>
 
                   <div className="relative mb-6">
                     <div className="flex absolute text-gray-400 inset-y-0 left-0 items-center pl-3 pointer-events-none">
                       <i className="fa-solid fa-lock"></i>
                     </div>
-                    <input name='password' value={formdata.pass} onChange={handleInput} type="password" id="input-group-3" className="focus:outline-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="*******" />
+                    <input autoComplete='off' name='password' value={formdata.pass} onChange={handleInput} type="password" id="input-group-3" className="focus:outline-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="*******" />
                   </div>
 
                   <button className='text-white bg-blue-600 w-full py-2' type="submit">Login</button>
