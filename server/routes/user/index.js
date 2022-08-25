@@ -16,6 +16,7 @@ router.post('/signup', upload.single('profilepic'), async (req, res) => {
     try {
         let user = null;
         const { name, email, password } = req.body
+        console.log(req.file);
         const profilepic = `${req.protocol}://${req.hostname}:5000/${req.file.path}`
 
         if (!name && !email && !password) {
