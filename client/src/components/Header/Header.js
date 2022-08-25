@@ -41,7 +41,7 @@ const Header = ({ variant }) => {
                 </Link>
                 <div className='flex gap-6 items-center justify-center'>
                     {
-                        user?.token && <>
+                        user.token && <>
 
                             <div className='h-8 w-8 bg-center bg-cover rounded-full cursor-pointer' onClick={handleProfileSlide} style={{ backgroundImage: `url(${user?.user_details?.profilepic})` }}></div>
                             <ul style={{ zIndex: '999' }} ref={profileSlide} className='absolute hidden top-0 right-0 h-full w-80 bg-gray-200 shadow-xl'>

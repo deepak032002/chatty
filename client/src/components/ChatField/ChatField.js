@@ -63,7 +63,7 @@ const ChatField = ({ currentUser, sendMsg, setSendMsg, handleSendMsg, allMsg, em
                             Object.keys(allMsg).map((dMsg, i) => {
 
                                 return (
-                                    <>
+                                    <React.Fragment key={new Date().getTime()}>
                                     <div className='flex justify-center items-center'>
                                         <h2 className='my-2 text-gray-600 text-sm text-center border bg-white p-1 rounded-md'>{dMsg}</h2>
                                     </div>
@@ -87,7 +87,7 @@ const ChatField = ({ currentUser, sendMsg, setSendMsg, handleSendMsg, allMsg, em
                                             }
                                         })
                                     }
-                                    </>
+                                    </React.Fragment>
                                 )
                             })
                             : <h2 className='text-center'>No Conversation</h2>

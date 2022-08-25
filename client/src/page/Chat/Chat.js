@@ -30,7 +30,7 @@ const Chat = () => {
 
     useEffect(() => {
         setAllMsg(state.user.messages)
-    }, [state])
+    }, [state.user.messages])
 
     useEffect(() => {
         socket.off('msg').on('msg', (msgObj) => {
@@ -51,7 +51,8 @@ const Chat = () => {
     const handleSendMsg = useCallback(() => {
         if (sendMsg) {
             const msgObj = { profilepic: profilepic, msg: sendMsg, self: true, from: email, date: new Date().toLocaleDateString(), time: new Date().toLocaleTimeString() }
-            setAllMsg({ ...allMsg, [new Date().toLocaleDateString()]: allMsg.messages.concat(msgObj) })
+            setAllMsg({ ...allMsg, [new Date().toLocaleDateString()]: allMsg[new Date().toLocaleDateString()].concat({ message: msgObj }) })
+            console.log({ ...allMsg, [new Date().toLocaleDateString()]: allMsg[new Date().toLocaleDateString()].concat({ message: msgObj }) } );
             dispatch(saveMessage(roomId, msgObj))
             socket.emit('msg', msgObj)
             setSendMsg('')

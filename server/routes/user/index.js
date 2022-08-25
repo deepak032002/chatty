@@ -88,7 +88,10 @@ router.get('/getuser', async (req, res) => {
 router.patch('/addcontacts/', async (req, res) => {
     try {
         const { f_email } = req.body
-        const userId = await jwt.verify(req.headers.token, SECREAT_KEY)
+        let userId = ''
+        if (req.headers.token) {
+            userId = await jwt.verify(req.headers.token, SECREAT_KEY)
+        }
         const friend = await User.findOne({ email: f_email })
 
         if (!friend) {

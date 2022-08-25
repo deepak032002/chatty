@@ -50,7 +50,7 @@ const SignUp = () => {
             <Header variant="signup" />
             <div className="section">
               <div className="form w-full flex justify-center items-center mt-4">
-                <form onSubmit={handleSignup} action="" encType='multipart/form-data' className='100% bg-white shadow-md p-2'>
+                <form onSubmit={handleSignup} action="" encType='multipart/form-data' className='w-[25%] bg-white shadow-md p-2'>
                   <h2 className='text-2xl font-bold my-4'>Sign Up</h2>
                   <div className="relative mb-6">
                     <div className="flex absolute text-gray-400 inset-y-0 left-0 items-center pl-3 pointer-events-none">

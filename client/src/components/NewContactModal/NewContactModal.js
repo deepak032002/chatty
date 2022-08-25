@@ -9,7 +9,7 @@ const NewContactModal = ({className, handleAddContact}) => {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        const res = await axios.patch('/api/v1/user/addcontacts', JSON.stringify({ f_email: fEmail }), {
+        const res = await axios.patch('/api/v1/user/addcontacts', { f_email: fEmail }, {
             headers: {
                 token: token
             }
