@@ -7,8 +7,8 @@ const ChatField = ({ currentUser, sendMsg, setSendMsg, handleSendMsg, allMsg, em
 
     const chatArea = useRef()
 
-    useEffect(()=>{
-        chatArea.current?.scrollIntoView({behavior: 'smooth'})
+    useEffect(() => {
+        chatArea.current?.scrollIntoView({ behavior: 'smooth' })
     }, [allMsg])
 
     const handleFriendProfileClick = () => {
@@ -59,27 +59,41 @@ const ChatField = ({ currentUser, sendMsg, setSendMsg, handleSendMsg, allMsg, em
             <div className="down" style={{ background: `url(${chatfieldbg}) #0000004d center / cover`, backgroundBlendMode: 'multiply' }}>
                 <div className="chat_area">
                     {
-                        allMsg.length > 0 ?
-                            allMsg.map((item, i) => {
-                                if (item?.self && item?.from === email) {
-                                    return (
-                                        <div key={new Date().getTime() + i} className="self flex my-3 flex-col items-end">
-                                            <img className='rounded-full w-6 h-6' src={item?.profilepic} alt="info" />
-                                            <p className='msg_self bg-violet-600 mr-4 rounded-2xl rounded-tr-none px-2 py-1 text-white'>{item?.msg}</p>
-                                        </div>
-                                    )
-                                } else {
-                                    return (
-                                        <div key={new Date().getTime() + i} className="friend my-3 flex flex-col items-start">
-                                            <img className='rounded-full w-6 h-6' src={item?.profilepic} alt="info" />
-                                            <p className='msg_friend bg-violet-600 ml-4 rounded-2xl rounded-tl-none px-2 py-1 text-white'>{item?.msg}</p>
-                                        </div>
-                                    )
-                                }
-                            }) : <h2 className='text-center'>No Conversation</h2>
+                        allMsg ?
+                            Object.keys(allMsg).map((dMsg, i) => {
+
+                                return (
+                                    <>
+                                    <div className='flex justify-center items-center'>
+                                        <h2 className='my-2 text-gray-600 text-sm text-center border bg-white p-1 rounded-md'>{dMsg}</h2>
+                                    </div>
+                                    {
+
+                                        allMsg[dMsg].map((msg, i) => {
+                                            if (msg.message?.self && msg.message?.from === email) {
+                                                return (
+                                                    <div key={new Date().getTime() + i} className="self flex my-3 flex-col items-end">
+                                                        <img className='rounded-full w-6 h-6' src={msg.message?.profilepic} alt="info" />
+                                                        <p className='msg_self bg-violet-600 mr-4 rounded-2xl rounded-tr-none px-2 py-1 text-white'>{msg.message?.msg}</p>
+                                                    </div>
+                                                )
+                                            } else {
+                                                return (
+                                                    <div key={new Date().getTime() + i} className="friend my-3 flex flex-col items-start">
+                                                        <img className='rounded-full w-6 h-6' src={msg.message?.profilepic} alt="info" />
+                                                        <p className='msg_friend bg-violet-600 ml-4 rounded-2xl rounded-tl-none px-2 py-1 text-white'>{msg.message?.msg}</p>
+                                                    </div>
+                                                )
+                                            }
+                                        })
+                                    }
+                                    </>
+                                )
+                            })
+                            : <h2 className='text-center'>No Conversation</h2>
                     }
 
-                    <div ref={chatArea}/>
+                    <div ref={chatArea} />
                 </div>
             </div>
             <div className="chat_write_area w-full absolute bottom-0 bg-white">

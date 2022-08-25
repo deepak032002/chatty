@@ -12,8 +12,6 @@ const messageSchema = mongoose.Schema({
     date: {
         type: Date,
     },
-}, {
-    timestamps: true
 })
 
 const Message = mongoose.model('message', messageSchema)

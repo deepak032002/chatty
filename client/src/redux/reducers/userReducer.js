@@ -35,7 +35,7 @@ const userReducer = (state = initialState, action) => {
             return { ...state }
 
         case GET_MSG:
-            return{...state, "messages": [...action.payload]}
+            return{...state, "messages": action.payload}
 
         default:
             return { ...state }

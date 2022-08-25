@@ -155,21 +155,26 @@ router.post('/savemsg', async (req, res) => {
     const { roomId, msgObj } = req.body
 
     const msgRes = await Message({ roomId, message: msgObj });
-    if (msgRes) {
-        return msgRes.save()
+    if (!msgRes) {
+        return res.json({ success: false, msg: 'Some Problem Occured!' })
     }
 
+    msgRes.save()
     return res.json({ success: true, msg: 'Send' })
 })
 
 router.get('/getmsg', async (req, res) => {
     const { roomid } = req.headers
     let messagesOfRoomId = await Message.find({ roomId: roomid })
-
-
+    const sortMessageByDate = {}
     if (messagesOfRoomId.length > 0) {
-        messagesOfRoomId = messagesOfRoomId.map((item) => item.message)
-        return res.json({ success: true, msg: messagesOfRoomId })
+        messagesOfRoomId.forEach((item) => {
+            if (!Object.keys(sortMessageByDate).includes(item.message.date)) {
+                sortMessageByDate[item.message.date] = []
+            }
+            sortMessageByDate[item.message.date].push(item)
+        })
+        return res.json({ success: true, msg: sortMessageByDate })
     }
 
     return res.json({ success: false, msg: null })

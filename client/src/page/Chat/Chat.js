@@ -16,19 +16,7 @@ const Chat = () => {
     const state = useSelector(state => state)
     const [currentUser, setCurrentUser] = useState(null)
     const [sendMsg, setSendMsg] = useState('')
-    const [allMsg, setAllMsg] = useState([
-        {
-            date: '23/04/2022',
-            messages: [
-                { "profilepic": "http://localhost:5000/uploads/1661167505201-ali-morshedlou-WMD64tMfc4k-unsplash.jpg", "msg": "hello", "self": true, "from": "rohit321@gmail.com", "date": "25/08/2022", "time": "13:35:18" },
-                { "profilepic": "http://localhost:5000/uploads/1661167505201-ali-morshedlou-WMD64tMfc4k-unsplash.jpg", "msg": "hello", "self": true, "from": "rohit321@gmail.com", "date": "25/08/2022", "time": "13:35:18" },
-                { "profilepic": "http://localhost:5000/uploads/1661167505201-ali-morshedlou-WMD64tMfc4k-unsplash.jpg", "msg": "hello", "self": true, "from": "rohit321@gmail.com", "date": "25/08/2022", "time": "13:35:18" },
-                { "profilepic": "http://localhost:5000/uploads/1661167505201-ali-morshedlou-WMD64tMfc4k-unsplash.jpg", "msg": "hello", "self": true, "from": "rohit321@gmail.com", "date": "25/08/2022", "time": "13:35:18" },
-                { "profilepic": "http://localhost:5000/uploads/1661167505201-ali-morshedlou-WMD64tMfc4k-unsplash.jpg", "msg": "hello", "self": true, "from": "rohit321@gmail.com", "date": "25/08/2022", "time": "13:35:18" },
-
-            ]
-        }
-    ])
+    const [allMsg, setAllMsg] = useState()
     const [roomId, setRoomId] = useState()
     const [currentSel, setCurrentSel] = useState(null)
 
@@ -46,9 +34,9 @@ const Chat = () => {
 
     useEffect(() => {
         socket.off('msg').on('msg', (msgObj) => {
-            setAllMsg(prev => prev.concat(msgObj))
+            setAllMsg({ ...allMsg, [new Date().toLocaleDateString()]: msgObj })
         })
-    }, [])
+    }, [setAllMsg, allMsg])
 
     const handleChatStart = useCallback((index, roomId) => {
         setCurrentUser(state.user.rooms[index].user[0])
@@ -63,12 +51,12 @@ const Chat = () => {
     const handleSendMsg = useCallback(() => {
         if (sendMsg) {
             const msgObj = { profilepic: profilepic, msg: sendMsg, self: true, from: email, date: new Date().toLocaleDateString(), time: new Date().toLocaleTimeString() }
-            setAllMsg(prev => prev.concat(msgObj))
+            setAllMsg({ ...allMsg, [new Date().toLocaleDateString()]: allMsg.messages.concat(msgObj) })
             dispatch(saveMessage(roomId, msgObj))
             socket.emit('msg', msgObj)
             setSendMsg('')
         }
-    }, [dispatch, email, roomId, profilepic, sendMsg])
+    }, [dispatch, email, roomId, profilepic, sendMsg, allMsg])
 
     return (
         <>
